@@ -1,15 +1,15 @@
-package WWW::LacunaExpanse::API::Bits::Medal;
+package Lacuna::API::Client::Bits::Medal;
 
 use Moose;
 use Carp;
 
-with 'WWW::LacunaExpanse::API::Role::Attributes';
+with 'Lacuna::API::Client::Role::Attributes';
 
 my $attributes = {
     id              => 'Int',
     name            => 'Str',
     image           => 'Str',
-    date            => \'WWW::LacunaExpanse::API::Bits::DateTime',
+    date            => \'Lacuna::API::Client::Bits::DateTime',
     public          => 'Int',
     times_earned    => 'Int',
 };

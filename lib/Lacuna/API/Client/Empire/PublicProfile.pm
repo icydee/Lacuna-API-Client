@@ -1,12 +1,12 @@
-package WWW::LacunaExpanse::API::Empire::PublicProfile;
+package Lacuna::API::Client::Empire::PublicProfile;
 
 use Moose;
 use Carp;
-use WWW::LacunaExpanse::API::Bits::DateTime;
-use WWW::LacunaExpanse::API::Body::Status;
+use Lacuna::API::Client::Bits::DateTime;
+use Lacuna::API::Client::Body::Status;
 
-with 'WWW::LacunaExpanse::API::Role::Attributes';
-with 'WWW::LacunaExpanse::API::Role::Call';
+with 'Lacuna::API::Client::Role::Attributes';
+with 'Lacuna::API::Client::Role::Call';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -19,11 +19,11 @@ my $attributes = {
     country                 => 'Str',
     skype                   => 'Str',
     player_name             => 'Str',
-    last_login              => \'WWW::LacunaExpanse::API::Bits::DateTime',
-    date_founded            => \'WWW::LacunaExpanse::API::Bits::DateTime',
+    last_login              => \'Lacuna::API::Client::Bits::DateTime',
+    date_founded            => \'Lacuna::API::Client::Bits::DateTime',
     species                 => 'Str',
-    known_colonies          => \'ArrayRef[WWW::LacunaExpanse::API::Body::Status]',
-    medals                  => \'ArrayRef[WWW::LacunaExpanse::API::Bits::Medal]',
+    known_colonies          => \'ArrayRef[Lacuna::API::Client::Body::Status]',
+    medals                  => \'ArrayRef[Lacuna::API::Client::Bits::Medal]',
     #alliance
 };
 

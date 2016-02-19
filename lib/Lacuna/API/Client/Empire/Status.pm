@@ -1,15 +1,15 @@
-package WWW::LacunaExpanse::API::Empire::Status;
+package Lacuna::API::Client::Empire::Status;
 
 use Moose;
 use Carp;
-use WWW::LacunaExpanse::API::Bits::DateTime;
-use WWW::LacunaExpanse::API::Body::Status;
+use Lacuna::API::Client::Bits::DateTime;
+use Lacuna::API::Client::Body::Status;
 
 # This defines your own Empire and all the attributes and methods that go with it
 # mostly, this is obtained by a call to /empire get_status
 
-with 'WWW::LacunaExpanse::API::Role::Attributes';
-with 'WWW::LacunaExpanse::API::Role::Call';
+with 'Lacuna::API::Client::Role::Attributes';
+with 'Lacuna::API::Client::Role::Call';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -22,10 +22,10 @@ my $attributes = {
     has_new_messages        => 'Int',
     latest_message_id       => 'Int',
     essentia                => 'Num',
-    planets                 => \'ArrayRef[WWW::LacunaExpanse::API::Body::Status]',
+    planets                 => \'ArrayRef[Lacuna::API::Client::Body::Status]',
     tech_level              => 'Int',
     self_destruct_active    => 'Int',
-    self_destruct_date      => \'WWW::LacunaExpanse::API::Bits::DateTime',
+    self_destruct_date      => \'Lacuna::API::Client::Bits::DateTime',
     alignment               => 'Str',
 };
 

@@ -1,4 +1,4 @@
-package WWW::LacunaExpanse::API::Connection;
+package Lacuna::API::Client::Connection;
 
 use MooseX::Singleton;
 
@@ -10,8 +10,8 @@ use JSON::RPC::Common::Marshal::HTTP;
 use Carp;
 
 our @CARP_NOT = qw(
-    WWW::LacunaExpanse::API
-    WWW::LacunaExpanse::API::Empire
+    Lacuna::API::Client
+    Lacuna::API::Client::Empire
 );
 
 # This class communicates with the Lacuna Expanse Server
@@ -47,7 +47,7 @@ sub BUILD {
 sub _build_log {
     my ($self) = @_;
 
-    my $log = Log::Log4perl->get_logger('WWW::LacunaExpanse::API::Connection');
+    my $log = Log::Log4perl->get_logger('Lacuna::API::Client::Connection');
     return $log;
 }
 

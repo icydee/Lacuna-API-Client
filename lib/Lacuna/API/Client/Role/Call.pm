@@ -1,14 +1,14 @@
-package WWW::LacunaExpanse::API::Role::Call;
+package Lacuna::API::Client::Role::Call;
 
 use Moose::Role;
 use Data::Dumper;
 
-use WWW::LacunaExpanse::API::Connection;
+use Lacuna::API::Client::Connection;
 
 has 'connection'        => (is => 'ro', lazy_build => 1);
 
 sub _build_connection {
-    return WWW::LacunaExpanse::API::Connection->instance;
+    return Lacuna::API::Client::Connection->instance;
 }
 
 sub call {

@@ -1,9 +1,9 @@
-package WWW::LacunaExpanse::Script::Example::Empire;
+package Lacuna::API::Script::Example::Empire;
 
 use Pod::Usage;
 use Moose;
 
-extends 'WWW::LacunaExpanse::Script';
+extends 'Lacuna::API::Script';
 
 # This is where the script does it's stuff
 sub execute {
@@ -48,7 +48,7 @@ sub usage {
 
 =head1 NAME
 
-WWW::LacunaExpanse::Script::Example::Empire;
+Lacuna::API::Script::Example::Empire;
 
 =head1 SYNOPSIS
 
@@ -63,7 +63,7 @@ WWW::LacunaExpanse::Script::Example::Empire;
 
 =head1 DESCRIPTION
 
-This is an example script for use with the WWW::LacunaExpanse::Script script_runner.pl
+This is an example script for use with the Lacuna::API::Script script_runner.pl
 module.
 
 It shows how you can do something simple (in this case interact with the /empire API.)

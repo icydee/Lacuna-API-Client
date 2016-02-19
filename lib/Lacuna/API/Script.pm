@@ -1,4 +1,4 @@
-package WWW::LacunaExpanse::Script;
+package Lacuna::API::Script;
 
 use Pod::Usage;
 use Moose;
@@ -12,7 +12,7 @@ has config => (
 
 has api => (
     is      => 'rw',
-    isa     => 'WWW::LacunaExpanse::API',
+    isa     => 'Lacuna::API::Client',
 );
 
 has has_default_config => (
@@ -29,14 +29,14 @@ has default_config => (
 );
 
 # Create a default config file based on the class name.
-# e.g. WWW::LacunaExpanse::Script::Foo::Bar would have a config file
+# e.g. Lacuna::API::Script::Foo::Bar would have a config file
 # in etc/foo/bar.json
 #
 sub _build_default_config {
     my ($self) = @_;
 
     my $config_file = ref $self;
-    $config_file =~ s/WWW::LacunaExpanse::Script:://;
+    $config_file =~ s/Lacuna::API::Script:://;
     $config_file = lc($config_file);
     my $dir = dir(split('::', $config_file));
     return "$dir";
@@ -62,7 +62,7 @@ sub execute {
 
 =head1 NAME
 
-WWW::LacunaExpanse::Script;
+Lacuna::API::Script;
 
 =head1 SYNOPSIS
 
@@ -73,7 +73,7 @@ WWW::LacunaExpanse::Script;
 
 =head1 DESCRIPTION
 
-This is the base module that should be extended by every script in the WWW::LacunaExpanse::Script
+This is the base module that should be extended by every script in the Lacuna::API::Script
 namespace.
 
 You need to implement the following methods

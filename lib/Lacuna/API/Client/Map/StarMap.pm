@@ -1,12 +1,12 @@
-package WWW::LacunaExpanse::API::Map::StarMap;
+package Lacuna::API::Client::Map::StarMap;
 
 use Moose;
 use Carp;
-use WWW::LacunaExpanse::API::Bits::DateTime;
-use WWW::LacunaExpanse::API::Body::Status;
+use Lacuna::API::Client::Bits::DateTime;
+use Lacuna::API::Client::Body::Status;
 
-with 'WWW::LacunaExpanse::API::Role::Call';
-with 'WWW::LacunaExpanse::API::Role::Attributes';
+with 'Lacuna::API::Client::Role::Call';
+with 'Lacuna::API::Client::Role::Attributes';
 
 has 'left'      => (is => 'rw');
 has 'top'       => (is => 'rw');
@@ -15,7 +15,7 @@ has 'right'     => (is => 'rw');
 
 # Attributes based on the hash returned by the call
 my $attributes = {
-    stars       => \'ArrayRef[WWW::LacunaExpanse::API::Map::Star]',
+    stars       => \'ArrayRef[Lacuna::API::Client::Map::Star]',
 };
 
 # private: path to the URL to call

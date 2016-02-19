@@ -1,13 +1,13 @@
-package WWW::LacunaExpanse::API::Map;
+package Lacuna::API::Client::Map;
 
 use Moose;
 use Carp;
 
-use WWW::LacunaExpanse::API::Map::StarMap;
+use Lacuna::API::Client::Map::StarMap;
 
 # This defines the calls to the '/map' API
 
-with 'WWW::LacunaExpanse::API::Role::Call';
+with 'Lacuna::API::Client::Role::Call';
 
 has '_path'      => (
         is          => 'ro',
@@ -17,7 +17,7 @@ has '_path'      => (
 sub get_star_map {
     my ($self, $args) = @_;
 
-    return WWW::LacunaExpanse::API::Map::StarMap->new($args);
+    return Lacuna::API::Client::Map::StarMap->new($args);
 }
 
 sub check_star_for_incoming_probe {
@@ -28,7 +28,7 @@ sub check_star_for_incoming_probe {
     });
 
     if ($result->{result}{incoming_probe}) {
-        return WWW::LacunaExpanse::API::Bits::DateTime->new_from_raw($result->{result}{incoming_probe});
+        return Lacuna::API::Client::Bits::DateTime->new_from_raw($result->{result}{incoming_probe});
     }
     return;
 }
@@ -38,7 +38,7 @@ sub check_star_for_incoming_probe {
 sub get_star {
     my ($self, $star_id) = @_;
 
-    return WWW::LacunaExpanse::API::Map::Star->new({ id => $star_id });
+    return Lacuna::API::Client::Map::Star->new({ id => $star_id });
 }
 
 # Find a star based on it's first few characters
@@ -52,7 +52,7 @@ sub find_star {
     
     my @stars;
     foreach my $raw (@{$result->{result}{stars}}) {
-        my $star = WWW::LacunaExpanse::API::Map::Star->new({
+        my $star = Lacuna::API::Client::Map::Star->new({
             id          => $raw->{id},
             name        => $raw->{name},
             x           => $raw->{x},
@@ -72,7 +72,7 @@ __PACKAGE__->meta->make_immutable;
 
 =head1 NAME
 
-WWW::LacunaExpanse::API::Map;
+Lacuna::API::Client::Map;
 
 =head1 SYNOPSIS
 

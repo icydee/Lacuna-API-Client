@@ -12,7 +12,7 @@ use File::Spec;
 use Class::Load qw(try_load_class);
 use Carp;
 use Data::Format::Pretty::JSON qw(format_pretty);
-use WWW::LacunaExpanse::API;
+use Lacuna::API::Client;
 
 my $defines;
 my $script_name;
@@ -31,7 +31,7 @@ GetOptions (
 pod2usage(1) if $help and not $script_name;
 
 # Attempt to load the class and create an instance
-my $class = "WWW::LacunaExpanse::Script::$script_name";
+my $class = "Lacuna::API::Script::$script_name";
 my ($loaded, $error) = try_load_class($class);
 if (not $loaded) {
     croak "Cannot load class $class - $error";
@@ -98,7 +98,7 @@ for my $key (keys %$defines) {
 
 $script->config($config);
 
-my $api = WWW::LacunaExpanse::API->new({
+my $api = Lacuna::API::Client->new({
     uri         => $config->get('connect/uri'),
     username    => $config->get('connect/username'),
     password    => $config->get('connect/password'),
@@ -116,7 +116,7 @@ $script->execute;
 
 =head1 NAME
 
-script_runner.pl - command line tool that will run any WWW::LacunaExpanse::Script
+script_runner.pl - command line tool that will run any Lacuna::API::Script
 
 =head1 VERSION
 
@@ -135,13 +135,13 @@ Lacuna Expanse has a published API which allows people to write scripts to enabl
 the processes of running their Empire. Although everything can be controlled manually through the Web Browser
 Client, or the iPhone client, for some perverse reason people have fun writing code to do it for them!
 
-The library L<WWW::LacunaExpanse::API> is a client which provides an Object Oriented interface to the Lacuna Expanse API
+The library L<Lacuna::API::Client> is a client which provides an Object Oriented interface to the Lacuna Expanse API
 (see http://us1.lacunaexpanse.com/api/>
 
 It is also an attempt to provide a unified interface to the scripts and to aid the development of such scripts
 by removing much of the boilerplate that has previously been used by stand alone scripts.
 
-All scripts written to this specification should be in the L<WWW::LacunaExpanse::Script> namespace.
+All scripts written to this specification should be in the L<Lacuna::API::Script> namespace.
 
 =head2 Config Files
 
@@ -150,7 +150,7 @@ By default, configuration files are held in the B<etc> directory and all have th
 Multiple configuration files can be specified. The script runner assumes a default config file which
 is B<etc/default.json>
 
-Typically a script will also have a default configuration file, e.g. WWW::LacunaExpanse::Script::Example::FleetSummary
+Typically a script will also have a default configuration file, e.g. Lacuna::API::Script::Example::FleetSummary
 would have a default config file B<etc/example/fleet_summary.json>
 
 Config files can be specified on the command line.
@@ -208,8 +208,8 @@ arguments.
 
  -script Example::FleetSummary
 
-This defines the name of the script you want to run and it assumes the prefix of B<WWW::LacunaExpanse::Script>
-in this case it will run the script WWW::LacunaExpanse::Script::Example::FleetSummary
+This defines the name of the script you want to run and it assumes the prefix of B<Lacuna::API::Script>
+in this case it will run the script Lacuna::API::Script::Example::FleetSummary
 
 =head3 -config
 

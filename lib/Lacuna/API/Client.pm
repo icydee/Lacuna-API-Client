@@ -1,13 +1,13 @@
-package WWW::LacunaExpanse::API;
+package Lacuna::API::Client;
 
 use Moose;
 use Data::Dumper;
 use Carp;
 use Contextual::Return;
 
-use WWW::LacunaExpanse::API::Empire;
+use Lacuna::API::Client::Empire;
 
-with 'WWW::LacunaExpanse::API::Role::Call';
+with 'Lacuna::API::Client::Role::Call';
 
 # This is the base class for the API
 
@@ -26,7 +26,7 @@ my $status;
 sub BUILD {
     my ($self) = @_;
 
-    WWW::LacunaExpanse::API::Connection->initialize({
+    Lacuna::API::Client::Connection->initialize({
             uri         => $self->uri,
             username    => $self->username,
             password    => $self->password,
@@ -39,7 +39,7 @@ sub BUILD {
 sub _build_inbox {
     my ($self) = @_;
 
-    my $inbox = WWW::LacunaExpanse::API::Inbox->new({
+    my $inbox = Lacuna::API::Client::Inbox->new({
             });
 
     return $inbox;
@@ -57,7 +57,7 @@ sub _build_empire {
 
         my $data = $result->{result}{empire};
 
-        $empire = WWW::LacunaExpanse::API::Empire->new({
+        $empire = Lacuna::API::Client::Empire->new({
             id      => $data->{id},
             name    => $data->{name},
             connection  => $self->connection,
@@ -72,7 +72,7 @@ sub _build_empire {
 sub _build_map {
     my ($self) = @_;
 
-    my $map = WWW::LacunaExpanse::API::Map->new({
+    my $map = Lacuna::API::Client::Map->new({
         connectio => $self->connection,
     });
     return $map;
@@ -86,12 +86,12 @@ sub find {
     my $things;
     if ($args->{empire}) {
 #        print "search for empire [".$args->{empire}."]\n";
-        $things = WWW::LacunaExpanse::API::Empire->find($args->{empire});
+        $things = Lacuna::API::Client::Empire->find($args->{empire});
     }
 
     if ($args->{star}) {
 #        print "search for star [".$args->{star}."]\n";
-        $things = WWW::LacunaExpanse::API::Star->find($args->{star});
+        $things = Lacuna::API::Client::Star->find($args->{star});
     }
 
     if ($args->{my_colony}) {
@@ -108,7 +108,7 @@ sub find {
 sub empire_rank {
     my ($self, $args) = @_;
 
-    my $empire_rank = WWW::LacunaExpanse::API::EmpireRank->new($args);
+    my $empire_rank = Lacuna::API::Client::EmpireRank->new($args);
 
     return $empire_rank
 }

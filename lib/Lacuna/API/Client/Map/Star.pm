@@ -1,13 +1,13 @@
-package WWW::LacunaExpanse::API::Map::Star;
+package Lacuna::API::Client::Map::Star;
 
 use Moose;
 use Carp;
-use WWW::LacunaExpanse::API::Bits::DateTime;
+use Lacuna::API::Client::Bits::DateTime;
 
 # This defines a single star
 
-with 'WWW::LacunaExpanse::API::Role::Call';
-with 'WWW::LacunaExpanse::API::Role::Attributes';
+with 'Lacuna::API::Client::Role::Call';
+with 'Lacuna::API::Client::Role::Attributes';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -17,8 +17,8 @@ my $attributes = {
     x                       => 'Int',
     y                       => 'Int',
     zone                    => 'Str',
-    bodies                  => \'ArrayRef[WWW::LacunaExpanse::API::Body::Status]',
-    station                 => \'WWW::LacunaExpanse::API::Body::Status',
+    bodies                  => \'ArrayRef[Lacuna::API::Client::Body::Status]',
+    station                 => \'Lacuna::API::Client::Body::Status',
 };
 
 # private: path to the URL to call

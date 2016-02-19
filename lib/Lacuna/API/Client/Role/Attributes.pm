@@ -1,4 +1,4 @@
-package WWW::LacunaExpanse::API::Role::Attributes;
+package Lacuna::API::Client::Role::Attributes;
 
 use Moose::Role;
 

@@ -1,4 +1,4 @@
-package WWW::LacunaExpanse::API::Body::Status;
+package Lacuna::API::Client::Body::Status;
 
 use Moose;
 use Carp;
@@ -6,8 +6,8 @@ use Carp;
 # This defines data about a body (including your own colonies) as obtained
 # by the call to /body get_status
 
-with 'WWW::LacunaExpanse::API::Role::Call';
-with 'WWW::LacunaExpanse::API::Role::Attributes';
+with 'Lacuna::API::Client::Role::Call';
+with 'Lacuna::API::Client::Role::Attributes';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -17,7 +17,7 @@ my $attributes = {
     y                       => 'Int',
     type                    => 'Str',
     population              => 'Int',
-    empire                  => \'WWW::LacunaExpanse::API::Empire::Status',
+    empire                  => \'Lacuna::API::Client::Empire::Status',
     ore_capacity            => 'Int',
     num_incoming_ally       => 'Int',
     num_incoming_foreign    => 'Int',
@@ -48,8 +48,8 @@ my $attributes = {
     plots_available         => 'Int',
     water                   => 'Int',
     image                   => 'Str',
-    ore                     => \'WWW::LacunaExpanse::API::Bits::Ores',
-    star                    => \'WWW::LacunaExpanse::API::Map::Star',
+    ore                     => \'Lacuna::API::Client::Bits::Ores',
+    star                    => \'Lacuna::API::Client::Map::Star',
 };
 
 # private: path to the URL to call

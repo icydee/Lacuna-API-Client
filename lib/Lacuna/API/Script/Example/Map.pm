@@ -1,12 +1,12 @@
-package WWW::LacunaExpanse::Script::Example::Map;
+package Lacuna::API::Script::Example::Map;
 
 use Pod::Usage;
 use Moose;
 use Data::Dumper;
 
-use WWW::LacunaExpanse::API::Map;
+use Lacuna::API::API::Map;
 
-extends 'WWW::LacunaExpanse::Script';
+extends 'Lacuna::API::Script';
 
 # This is where the script does it's stuff
 sub execute {
@@ -71,7 +71,7 @@ sub usage {
 
 =head1 NAME
 
-WWW::LacunaExpanse::Script::Example::Map;
+Lacuna::API::Script::Example::Map;
 
 =head1 SYNOPSIS
 

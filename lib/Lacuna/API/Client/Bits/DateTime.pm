@@ -1,4 +1,4 @@
-package WWW::LacunaExpanse::API::Bits::DateTime;
+package Lacuna::API::Client::Bits::DateTime;
 
 use strict;
 use warnings;

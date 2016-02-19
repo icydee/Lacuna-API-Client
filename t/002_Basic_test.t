@@ -5,13 +5,13 @@ use FindBin::libs;
 use Data::Dumper;
 
 use Test::More tests => 5;
-BEGIN { use_ok('WWW::LacunaExpanse::API') };
+BEGIN { use_ok('Lacuna::API::Client') };
 
-eval { WWW::LacunaExpanse::API->new };
+eval { Lacuna::API::Client->new };
 like($@, qr/Attribute \(uri\) is required/, 'Exception without uri');
 
-my $client = eval { WWW::LacunaExpanse::API->new(uri => 'http://spacebotwar.com:8000') };
-isa_ok($client, 'WWW::LacunaExpanse::API');
+my $client = eval { Lacuna::API::Client->new(uri => 'http://spacebotwar.com:8000') };
+isa_ok($client, 'Lacuna::API::Client');
 
 my $is_available_false = $client->is_name_available( { name => 'icydee' } );
 
