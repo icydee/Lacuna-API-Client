@@ -1,0 +1,11 @@
+# 'global' refers to all applications
+global:
+    log_config:     "/data/Lacuna-API-Client/etc/log4perl.conf"
+
+
+# 'internal' config items are not arguments to applications, they
+# have to be explicitly read from the config data via the $config attribute
+internal:
+    server:
+        base_uri:   "http://spacebotwar.com:8000/"
+
