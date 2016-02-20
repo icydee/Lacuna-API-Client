@@ -60,6 +60,8 @@ sub get_public_profile {
     });
 }
 
+# Returns true if the empire name is available
+# 
 sub is_name_available {
     my ($self, $args) = @_;
     local $@;
@@ -84,6 +86,8 @@ sub login {
     return 1;
 }
 
+# Returns a referral URL
+#
 sub get_invite_friend_url {
     my ($self) = @_;
 
@@ -91,7 +95,8 @@ sub get_invite_friend_url {
     return $response->{result}{referral_url};
 }
 
-
+# Returns true if logged out
+#
 sub logout {
     my ($self) = @_;
 
@@ -99,6 +104,8 @@ sub logout {
     return 1;
 }
 
+# Returns a Captcha object
+# 
 sub fetch_captcha {
     my ($self) = @_;
 
@@ -106,19 +113,33 @@ sub fetch_captcha {
     return Lacuna::API::Data::Bits::Captcha->new_from_raw($response->{result});
 }
 
+# Returns the empire_id if successful
+# 
 sub create {
     my ($self, $args) = @_;
 
     my $response = $self->call('create', $args);
-    return $response->{result};
+    return $response->{result}{empire_id};
 }
 
+# Returns true if the empire is founded
+#
 sub found {
     my ($self, $args) = @_;
 
     my $response = $self->call('found', $args);
-    return $response->{result};
+    return 1;
 }
+
+# Returns true if the species can be updated
+#
+sub update_species {
+    my ($self, $args) = @_;
+
+    my $response = $self->call('update_species', $args);
+    return 1;
+}
+
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

@@ -23,7 +23,7 @@ sub run {
     my $empire_name     = $string_random->randpattern("CcccccccccCccccccccc");
     my $email_address   = $string_random->randpattern("Cccccccccccc").'@example.com';
 
-    my $result = $self->client->empire->create({
+    my $empire_id = $self->client->empire->create({
         name                => $empire_name,
         password            => 'secret',
         password1           => 'secret',
@@ -31,15 +31,34 @@ sub run {
         captcha_solution    => $captcha_solution,
         email               => $email_address,
     });
-    my $empire_id = $result->{empire_id};
 
     print "New empire created with ID=$empire_id\n";
-    print "API KEY ".$self->client->empire->api_key."\n";
-    $result = $self->client->empire->found({
+    
+    my $result = $self->client->empire->update_species({
+        empire_id               => $empire_id,
+        name                    => 'Species Name',
+        description             => 'Species Description',
+        min_orbit               => 1,
+        max_orbit               => 3,
+        manufacturing_affinity  => 2,
+        deception_affinity      => 2,
+        research_affinity       => 2,
+        management_affinity     => 5,
+        farming_affinity        => 5,
+        mining_affinity         => 2,
+        science_affinity        => 4,
+        environmental_affinity  => 4,
+        political_affinity      => 2,
+        trade_affinity          => 7,
+        growth_affinity         => 7,
+    });
+    
+    
+    my $result = $self->client->empire->found({
         empire_id           => $empire_id,
         api_key             => $self->client->empire->api_key, 
     });
-
+    print "Empire $empire_id Founded successfully\n";
 
 }
 
