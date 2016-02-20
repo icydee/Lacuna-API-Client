@@ -5,6 +5,7 @@ use Carp;
 use Lacuna::API::Data::Empire::MyEmpire;
 use Lacuna::API::Data::Empire::PublicProfile;
 use Lacuna::API::Data::Empire::MyProfile;
+use Lacuna::API::Data::Bits::Captcha;
 
 # This object is responsible for all the calls to the path /empire
 
@@ -37,23 +38,23 @@ has 'api_key' => (
 sub _build_my_empire {
     my ($self) = @_;
 
-    my $result          = $self->call('get_status');
-    my $my_empire_raw   = $result->{result}{empire};
+    my $response          = $self->call('get_status');
+    my $my_empire_raw   = $response->{result}{empire};
     return Lacuna::API::Data::Empire::MyEmpire->new_from_raw($my_empire_raw);
 }
 
 sub _build_own_profile {
     my ($self) = @_;
 
-    my $result          = $self->call('get_own_profile');
-    my $own_profile_raw = $result->{result}{own_profile};
+    my $response          = $self->call('get_own_profile');
+    my $own_profile_raw = $response->{result}{own_profile};
     return Lacuna::API::Data::Empire::MyProfile->new_from_raw($own_profile_raw);
 }
 
 sub get_public_profile {
     my ($self, $empire_id) = @_;
 
-    my $result          = $self->call('get_public_profile', $empire_id);
+    my $response          = $self->call('get_public_profile', $empire_id);
     return Lacuna::API::Data::Empire::PublicProfile->new({
         id   => $empire_id,
     });
@@ -63,10 +64,10 @@ sub is_name_available {
     my ($self, $args) = @_;
     local $@;
 
-    my $result = eval { return $self->call('is_name_available', { name => $args->{name} }) };
+    my $response = eval { return $self->call('is_name_available', { name => $args->{name} }) };
 
     return undef if $@;
-    return $result->{result}{available} == 1;
+    return $response->{result}{available} == 1;
 }
 
 # This method is not really required since the code will try
@@ -75,7 +76,7 @@ sub is_name_available {
 sub login {
     my ($self, $args) = @_;
 
-    my $result = $self->call('login', {
+    my $response = $self->call('login', {
         name        => $args->{name},
         password    => $args->{password},
         api_key     => $self->api_key,
@@ -86,18 +87,38 @@ sub login {
 sub get_invite_friend_url {
     my ($self) = @_;
 
-    my $result = $self->call('get_invite_friend_url', {});
-    return $result->{result}{referral_url};;
+    my $response = $self->call('get_invite_friend_url');
+    return $response->{result}{referral_url};
 }
 
 
 sub logout {
     my ($self) = @_;
 
-    my $result = $self->connection->call('/empire', 'logout', {});
+    my $response = $self->call('logout');
     return 1;
 }
 
+sub fetch_captcha {
+    my ($self) = @_;
+
+    my $response = $self->call('fetch_captcha', {});
+    return Lacuna::API::Data::Bits::Captcha->new_from_raw($response->{result});
+}
+
+sub create {
+    my ($self, $args) = @_;
+
+    my $response = $self->call('create', $args);
+    return $response->{result};
+}
+
+sub found {
+    my ($self, $args) = @_;
+
+    my $response = $self->call('found', $args);
+    return $response->{result};
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

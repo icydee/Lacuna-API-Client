@@ -138,10 +138,10 @@ sub call {
     if (defined $deflated->{result}{empire}) {
         $rpc_count = $deflated->{result}{empire}{rpc_count};
     }
-    else {
+    elsif (defined $deflated->{result}{status}) {
         $rpc_count = $deflated->{result}{status}{empire}{rpc_count};
     }
-    $self->rpc_calls($rpc_count);
+    $self->rpc_calls($rpc_count) if $rpc_count;
 #    $self->log->debug("RPC_CALLS: $rpc_count");
 
 #    if (not $rpc_count) {
@@ -153,13 +153,15 @@ sub call {
     if (!$self->session_id                                          # Skip if we've already got it
         and exists $deflated->{result}
         and ref($deflated->{result}) eq 'HASH'                      # unauthenticated calls don't return a HASH ref
-        and exists $deflated->{result}{session_id}) {
+and exists $deflated->{result}{session_id}) {
 
         $self->session_id($deflated->{result}{session_id});
     }
     # throttle back a script so that it is less than 75 per minutes
     # sleep 1 will reduce it to less than 60 per minute
     sleep 1;
+print STDERR "DEFLATED: ".Dumper($deflated);
+    
     return $deflated;
 
 
