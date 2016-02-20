@@ -4,17 +4,21 @@ use Moose;
 use Data::Dumper;
 use Carp;
 use Contextual::Return;
+use Config::Any;
 
 use Lacuna::API::Client::Empire;
+use Lacuna::API::SConfig;
 
 with 'Lacuna::API::Client::Role::Call';
 
 # This is the base class for the API
 
 # Attributes
-has 'uri'           => (is => 'ro', required => 1);
-has 'username'      => (is => 'rw', required => 0);
-has 'password'      => (is => 'rw', required => 0);
+has 'config_file'   => (is => 'ro', required => 1);
+has 'config'        => (is => 'ro', lazy_build => 1);
+has 'uri'           => (is => 'ro', lazy_build => 1);
+has 'username'      => (is => 'rw', lazy_build => 1);
+has 'password'      => (is => 'rw', lazy_build => 1);
 has 'debug_hits'    => (is => 'rw', default => 0);
 has 'empire'        => (is => 'ro', lazy_build => 1);
 has 'map'           => (is => 'ro', lazy_build => 1);
@@ -34,13 +38,52 @@ sub BUILD {
             });
 }
 
+# Lazy build of config
+#
+sub _build_config {
+    my ($self) = @_;
+
+    my $config = Config::Any->load_files({
+        files           => [$self->config_file],
+        flatten_to_hash => 1,
+        use_ext         => 1,
+    });
+    $config = $config->{$self->config_file};
+
+    return $config;
+}
+
+# Lazy build of uri
+#
+sub _build_uri {
+    my ($self) = @_;
+
+    return $self->config->{uri};
+}
+
+# Lazy build of username
+#
+sub _build_username {
+    my ($self) = @_;
+
+    return $self->config->{username};
+}
+
+# Lazy build of password
+#
+sub _build_password {
+    my ($self) = @_;
+
+    return $self->config->{password};
+}
+
 # Lazy build of Inbox
 #
 sub _build_inbox {
     my ($self) = @_;
 
     my $inbox = Lacuna::API::Client::Inbox->new({
-            });
+    });
 
     return $inbox;
 }
@@ -73,7 +116,7 @@ sub _build_map {
     my ($self) = @_;
 
     my $map = Lacuna::API::Client::Map->new({
-        connectio => $self->connection,
+        connection => $self->connection,
     });
     return $map;
 }
@@ -121,6 +164,19 @@ sub is_name_available {
 
     return undef if $@;
     return $result->{result}{available} == 1;
+}
+
+# This method is not really required since the code will try
+# to auto-login or re-use an existing session
+#
+sub login {
+    my ($self, $args) = @_;
+
+    my $result = $self->connection->call('/empire', 'login', {
+        name        => $args->{name},
+        password    => $args->{password},
+        api_key     => $self->config->{api_key},
+    });
 }
 
 no Moose;

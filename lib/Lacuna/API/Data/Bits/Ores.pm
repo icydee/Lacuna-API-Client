@@ -1,9 +1,9 @@
-package Lacuna::API::Client::Bits::Ores;
+package Lacuna::API::Data::Bits::Ores;
 
 use Moose;
 use Carp;
 
-with 'Lacuna::API::Client::Role::Attributes';
+with 'Lacuna::API::Data::Role::Attributes';
 
 my $attributes = {
     rutile          => 'Str',

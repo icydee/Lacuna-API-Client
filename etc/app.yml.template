@@ -4,12 +4,17 @@
 #
 global:
     log_config:     "/data/Lacuna-API-Client/etc/log4perl.conf"
+    client_config:  "/data/Lacuna-API-Client/etc/client.yml"
 
 # The following are attributes on an application-by-application basis
 # they can be defined in this config file, or over-ridden on the command line
 #
 is_name_available:
     empire_name:    "Lacuna Expanse Corp"
+
+login:
+    empire_name:    "icydee"
+    password:       "secret"
 
 # 'internal' config items are configuration values that are not expected
 # to be over-ridden on the command line. They need to be accessed via the

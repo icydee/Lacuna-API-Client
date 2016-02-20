@@ -69,12 +69,12 @@ sub _build_marshal {
 sub call {
     my ($self, $path, $method, $params) = @_;
 
-    my $ps = '';
-    if ($params and @$params) {
-        $ps = join('|', map {defined $_ ? $_ : ''} @$params);
-    }
-    $self->log->debug("API-CALL: PATH $path : METHOD $method [$ps]");
-#    print Dumper($params);
+#    my $ps = '';
+#    if ($params and @$params) {
+#        $ps = join('|', map {defined $_ ? $_ : ''} @$params);
+#    }
+#    $self->log->debug("API-CALL: PATH $path : METHOD $method [$ps]");
+    print Dumper($params);
 
     my $max_tries = 5;
 

@@ -1,4 +1,4 @@
-package Lacuna::API::Client::Body::Status;
+package Lacuna::API::Data::Body::MyBody;
 
 use Moose;
 use Carp;
@@ -6,8 +6,7 @@ use Carp;
 # This defines data about a body (including your own colonies) as obtained
 # by the call to /body get_status
 
-with 'Lacuna::API::Client::Role::Call';
-with 'Lacuna::API::Client::Role::Attributes';
+with 'Lacuna::API::Data::Role::Attributes';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -17,7 +16,7 @@ my $attributes = {
     y                       => 'Int',
     type                    => 'Str',
     population              => 'Int',
-    empire                  => \'Lacuna::API::Client::Empire::Status',
+    empire                  => \'Lacuna::API::Data::Empire::Status',
     ore_capacity            => 'Int',
     num_incoming_ally       => 'Int',
     num_incoming_foreign    => 'Int',
@@ -48,16 +47,9 @@ my $attributes = {
     plots_available         => 'Int',
     water                   => 'Int',
     image                   => 'Str',
-    ore                     => \'Lacuna::API::Client::Bits::Ores',
-    star                    => \'Lacuna::API::Client::Map::Star',
+    ore                     => \'Lacuna::API::Data::Bits::Ores',
+    star                    => \'Lacuna::API::Data::Map::Star',
 };
-
-# private: path to the URL to call
-has '_path'  => (
-    is          => 'ro',
-    default     => '/body',
-    init_arg    => undef,
-);
 
 has '_attributes' => (
     is          => 'ro',
@@ -66,17 +58,6 @@ has '_attributes' => (
 );
 
 create_attributes(__PACKAGE__, $attributes);
-
-# Update by doing a call to get the objects status
-#
-sub update {
-    my ($self) = @_;
-
-    my $result = $self->call('get_status',{
-        body_id     => $self->id,
-    });
-    $self->update_from_raw($result->{result}{body});
-}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

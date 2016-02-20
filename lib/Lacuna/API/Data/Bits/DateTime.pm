@@ -1,4 +1,4 @@
-package Lacuna::API::Client::Bits::DateTime;
+package Lacuna::API::Data::Bits::DateTime;
 
 use strict;
 use warnings;

@@ -2,12 +2,11 @@ package Lacuna::API::Client::Empire;
 
 use Moose;
 use Carp;
-use Lacuna::API::Client::Empire::Status;
-use Lacuna::API::Client::Empire::PublicProfile;
-use Lacuna::API::Client::Empire::OwnProfile;
+use Lacuna::API::Data::Empire::MyEmpire;
+use Lacuna::API::Data::Empire::PublicProfile;
+use Lacuna::API::Data::Empire::MyProfile;
 
-# This defines your own Empire and all the attributes and methods that go with it
-# mostly, this is obtained by a call to /empire get_status
+# This object is responsible for all the calls to the path /empire
 
 
 with 'Lacuna::API::Client::Role::Call';
@@ -23,41 +22,40 @@ has '_path'      => (
     default     => '/empire',
 
 );
-has 'status'    => (
+has 'my_empire'    => (
     is          => 'rw',
-    isa         => 'Lacuna::API::Client::Empire::Status',
+    isa         => 'Lacuna::API::Data::Empire::MyEmpire',
     lazy        => 1,
-    builder     => '_build_status',
+    builder     => '_build_my_empire',
 );
 has 'own_profile' => (
     is          => 'rw',
-    isa         => 'Lacuna::API::Client::Empire::OwnProfile',
+    isa         => 'Lacuna::API::Data::Empire::MyProfile',
     lazy        => 1,
     builder     => '_build_own_profile',
 );
 
-
-sub _build_status {
+sub _build_my_empire {
     my ($self) = @_;
 
-    my $result = $self->call('get_status');
-    my $body = $result->{result}{empire};
-    return Lacuna::API::Client::Empire::Status->new_from_raw($body);
-    
+    my $result          = $self->call('get_status');
+    my $my_empire_raw   = $result->{result}{empire};
+    return Lacuna::API::Data::Empire::MyEmpire->new_from_raw($my_empire_raw);
 }
 
 sub _build_own_profile {
     my ($self) = @_;
-    my $result = $self->call('get_own_profile');
-    my $body = $result->{result}{own_profile};
-    return Lacuna::API::Client::Empire::OwnProfile->new_from_raw($body);
 
+    my $result          = $self->call('get_own_profile');
+    my $own_profile_raw = $result->{result}{own_profile};
+    return Lacuna::API::Data::Empire::MyProfile->new_from_raw($own_profile_raw);
 }
 
 sub get_public_profile {
     my ($self, $empire_id) = @_;
 
-    return Lacuna::API::Client::Empire::PublicProfile->new({
+    my $result          = $self->call('get_public_profile', $empire_id);
+    return Lacuna::API::Data::Empire::PublicProfile->new({
         id   => $empire_id,
     });
 }

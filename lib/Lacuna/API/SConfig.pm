@@ -1,4 +1,4 @@
-package Lacuna::API::App::SConfig;
+package Lacuna::API::SConfig;
 
 use MooseX::Singleton;
 use namespace::autoclean;

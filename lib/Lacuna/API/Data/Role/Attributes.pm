@@ -1,4 +1,4 @@
-package Lacuna::API::Client::Role::Attributes;
+package Lacuna::API::Data::Role::Attributes;
 
 use Moose::Role;
 

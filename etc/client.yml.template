@@ -1,0 +1,8 @@
+# The 'client' configuration file contains configuration items
+# such as the server url
+#
+# For application specific configuration values see the individual
+# configuration files.
+#
+uri:        "http://spacebotwar.com:8000"
+api_key:    "33779e58-4b56-4fcb-9994-66c10749c57b"

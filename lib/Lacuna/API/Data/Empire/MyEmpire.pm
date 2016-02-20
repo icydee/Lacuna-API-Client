@@ -1,15 +1,14 @@
-package Lacuna::API::Client::Empire::Status;
+package Lacuna::API::Data::Empire::MyEmpire;
 
 use Moose;
 use Carp;
-use Lacuna::API::Client::Bits::DateTime;
-use Lacuna::API::Client::Body::Status;
+use Lacuna::API::Data::Bits::DateTime;
+use Lacuna::API::Data::Body::MyBody;
 
 # This defines your own Empire and all the attributes and methods that go with it
 # mostly, this is obtained by a call to /empire get_status
 
-with 'Lacuna::API::Client::Role::Attributes';
-with 'Lacuna::API::Client::Role::Call';
+with 'Lacuna::API::Data::Role::Attributes';
 
 # Attributes based on the hash returned by the call
 my $attributes = {
@@ -22,19 +21,12 @@ my $attributes = {
     has_new_messages        => 'Int',
     latest_message_id       => 'Int',
     essentia                => 'Num',
-    planets                 => \'ArrayRef[Lacuna::API::Client::Body::Status]',
+    planets                 => \'ArrayRef[Lacuna::API::Data::Body::MyBody]',
     tech_level              => 'Int',
     self_destruct_active    => 'Int',
-    self_destruct_date      => \'Lacuna::API::Client::Bits::DateTime',
+    self_destruct_date      => \'Lacuna::API::Data::Bits::DateTime',
     alignment               => 'Str',
 };
-
-# private: path to the URL to call
-has '_path'  => (
-    is          => 'ro',
-    default     => '/empire',
-    init_arg    => undef,
-);
 
 has '_attributes' => (
     is          => 'ro',
@@ -43,17 +35,6 @@ has '_attributes' => (
 );
 
 create_attributes(__PACKAGE__, $attributes);
-
-# Update by doing a call to get the objects status
-#
-sub update {
-    my ($self) = @_;
-    my $result = $self->call('get_status',{
-        body_id     => $self->id,
-    });
-    $self->update_from_raw($result->{result}{empire});
-}
-
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
