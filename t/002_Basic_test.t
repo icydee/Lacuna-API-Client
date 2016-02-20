@@ -13,13 +13,13 @@ like($@, qr/Attribute \(uri\) is required/, 'Exception without uri');
 my $client = eval { Lacuna::API::Client->new(uri => 'http://spacebotwar.com:8000') };
 isa_ok($client, 'Lacuna::API::Client');
 
-my $is_available_false = $client->is_name_available( { name => 'icydee' } );
+my $is_available = not $client->is_name_available( { name => 'icydee' } );
 
-ok($is_available_false == 0, 'is_name_available false');
+ok( $is_available, 'Empire is not available');
 
-my $is_available_true = $client->is_name_available( { name => 'Z1y3W5x7D6c4B2a' } );
+$is_available = $client->is_name_available( { name => 'Z1y3W5x7D6c4B2a' } );
 
-ok($is_available_true->{available} == 1, 'is_name_available true');
+ok($is_available, 'Empire is available');
 
 1;
 __END__

@@ -44,7 +44,7 @@ RUN cpanm Plack::Middleware::CrossOrigin Pod::Simple::HTML Regexp::Common Server
 RUN cpanm Text::CSV_XS Tie::IxHash URI::Encode UUID::Tiny XML::FeedPP XML::Hash::LX XML::Parser
 RUN cpanm Term::ProgressBar Term::ProgressBar::Quiet PerlX::Maybe Firebase::Auth Gravatar::URL
 RUN cpanm Digest::MD4 Bad::Words FindBin::libs DateTime::Precise MooseX::Singleton JSON::RPC::Common::Marshal::HTTP
-RUN cpanm Contextual::Return
+RUN cpanm Contextual::Return MooseX::App Text::WagnerFischer
 
 RUN groupadd nogroup
 WORKDIR /data/Lacuna-API-Client

@@ -3,7 +3,7 @@ package Lacuna::API::App::Role::UsesCommon;
 use Moose::Role;
 use MooseX::App::Role;
 use Config::Any;
-
+use Lacuna::API::Client;
 use Lacuna::API::App::SConfig;
 
 #--- command line arguments common to all applications
@@ -22,15 +22,21 @@ option 'log_config' => (
     documentation   => 'Full path to log4perl config file',
 );
 
-has '_config' => (
+has 'client' => (
     is              => 'rw',
-    builder         => '_build_config',
+    builder         => '_build_client',
+    lazy            => 1,
+);
+
+has 'internal_config' => (
+    is              => 'rw',
+    builder         => '_build_internal_config',
     lazy            => 1,
 );
 
 #--- Builder methods
 
-sub _build_config {
+sub _build_internal_config {
     my ($self) = @_;
 
     my $config = Config::Any->load_files({
@@ -45,6 +51,16 @@ sub _build_config {
     });
     return $self->_config_data->{internal};
 }
+
+sub _build_client{
+    my ($self) = @_;
+
+    my $client = Lacuna::API::Client->new({
+        uri => $self->internal_config->{server}{base_uri}
+    });
+    return $client;
+}
+
 
 sub BUILD {
     my ($self) = @_;

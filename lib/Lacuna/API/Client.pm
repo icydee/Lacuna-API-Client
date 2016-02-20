@@ -119,7 +119,8 @@ sub is_name_available {
 
     my $result = eval { return $self->connection->call('/empire', 'is_name_available', [$name]) };
 
-    return $@ ? 0 : $result->{result};
+    return undef if $@;
+    return $result->{result}{available} == 1;
 }
 
 no Moose;
