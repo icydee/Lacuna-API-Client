@@ -69,12 +69,15 @@ sub _build_marshal {
 sub call {
     my ($self, $path, $method, $params) = @_;
 
+    if ($self->session_id) {
+        $params->{session_id} = $self->session_id;
+    }
 #    my $ps = '';
 #    if ($params and @$params) {
 #        $ps = join('|', map {defined $_ ? $_ : ''} @$params);
 #    }
 #    $self->log->debug("API-CALL: PATH $path : METHOD $method [$ps]");
-    print Dumper($params);
+    #print "CALL: Params ".Dumper($params);
 
     my $max_tries = 5;
 
@@ -141,11 +144,11 @@ sub call {
     $self->rpc_calls($rpc_count);
 #    $self->log->debug("RPC_CALLS: $rpc_count");
 
-    if (not $rpc_count) {
-        print "\n############ response ###############\n";
-        print "response = [".dump(\$deflated)."]\n";
-        print "#######################################\n\n";
-}
+#    if (not $rpc_count) {
+#        print "\n############ response ###############\n";
+#        print "response = [".dump(\$deflated)."]\n";
+#        print "#######################################\n\n";
+#    }
 
     if (!$self->session_id                                          # Skip if we've already got it
         and exists $deflated->{result}

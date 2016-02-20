@@ -11,12 +11,6 @@ use Lacuna::API::Data::Empire::MyProfile;
 
 with 'Lacuna::API::Client::Role::Call';
 
-has 'id'        => (
-    is          => 'ro',
-    isa         => 'Int',
-    required    => 1,
-);
-
 has '_path'      => (
     is          => 'ro',
     default     => '/empire',
@@ -33,6 +27,11 @@ has 'own_profile' => (
     isa         => 'Lacuna::API::Data::Empire::MyProfile',
     lazy        => 1,
     builder     => '_build_own_profile',
+);
+has 'api_key' => (
+    is          => 'rw',
+    isa         => 'Str',
+    default     => '33779e58-4b56-4fcb-9994-66c10749c57b',
 );
 
 sub _build_my_empire {
@@ -59,6 +58,46 @@ sub get_public_profile {
         id   => $empire_id,
     });
 }
+
+sub is_name_available {
+    my ($self, $args) = @_;
+    local $@;
+
+    my $result = eval { return $self->call('is_name_available', { name => $args->{name} }) };
+
+    return undef if $@;
+    return $result->{result}{available} == 1;
+}
+
+# This method is not really required since the code will try
+# to auto-login or re-use an existing session
+#
+sub login {
+    my ($self, $args) = @_;
+
+    my $result = $self->call('login', {
+        name        => $args->{name},
+        password    => $args->{password},
+        api_key     => $self->api_key,
+    });
+    return 1;
+}
+
+sub get_invite_friend_url {
+    my ($self) = @_;
+
+    my $result = $self->call('get_invite_friend_url', {});
+    return $result->{result}{referral_url};;
+}
+
+
+sub logout {
+    my ($self) = @_;
+
+    my $result = $self->connection->call('/empire', 'logout', {});
+    return 1;
+}
+
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

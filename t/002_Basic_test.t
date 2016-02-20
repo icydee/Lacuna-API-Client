@@ -18,11 +18,11 @@ my $client = eval {
 
 isa_ok($client, 'Lacuna::API::Client');
 
-my $is_available = not $client->is_name_available( { name => 'icydee' } );
+my $is_available = not $client->empire->is_name_available( { name => 'icydee' } );
 
 ok( $is_available, 'Empire is not available');
 
-$is_available = $client->is_name_available( { name => 'Z1y3W5x7D6c4B2a' } );
+$is_available = $client->empire->is_name_available( { name => 'Z1y3W5x7D6c4B2a' } );
 
 ok($is_available, 'Empire is available');
 

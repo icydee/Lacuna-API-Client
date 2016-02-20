@@ -93,21 +93,7 @@ sub _build_inbox {
 sub _build_empire {
     my ($self) = @_;
 
-    my $empire;
-
-    if ($self->connection->session_id) {
-        my $result = $self->connection->call('/empire', 'get_status',[{ session_id => $self->connection->session_id}]);
-
-        my $data = $result->{result}{empire};
-
-        $empire = Lacuna::API::Client::Empire->new({
-            id      => $data->{id},
-            name    => $data->{name},
-            connection  => $self->connection,
-        });
-    }
-
-    return $empire;
+    return Lacuna::API::Client::Empire->new({});
 }
 
 # Lazy build of Map
@@ -154,29 +140,6 @@ sub empire_rank {
     my $empire_rank = Lacuna::API::Client::EmpireRank->new($args);
 
     return $empire_rank
-}
-
-sub is_name_available {
-    my ($self, $name) = @_;
-    local $@;
-
-    my $result = eval { return $self->connection->call('/empire', 'is_name_available', [$name]) };
-
-    return undef if $@;
-    return $result->{result}{available} == 1;
-}
-
-# This method is not really required since the code will try
-# to auto-login or re-use an existing session
-#
-sub login {
-    my ($self, $args) = @_;
-
-    my $result = $self->connection->call('/empire', 'login', {
-        name        => $args->{name},
-        password    => $args->{password},
-        api_key     => $self->config->{api_key},
-    });
 }
 
 no Moose;

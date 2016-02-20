@@ -1,4 +1,4 @@
-package Lacuna::API::App::Misc;
+package Lacuna::API::App::EmpireMisc;
 use MooseX::App qw(Config Color Man Typo);
 
 with

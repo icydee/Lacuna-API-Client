@@ -4,7 +4,7 @@ use FindBin::libs qw(base=lib);
 use Config::Any;
 use Log::Log4perl;
 
-use Lacuna::API::App::Misc;
+use Lacuna::API::App::EmpireMisc;
 
 my $config_file = "$FindBin::Bin/../etc/app.yml";
 
@@ -19,7 +19,7 @@ Log::Log4perl->init($config->{global}{log_config});
 
 $config = $config->{internal};
 
-my $app = Lacuna::API::App::Misc->new_with_command();
+my $app = Lacuna::API::App::EmpireMisc->new_with_command();
 
 $app->run;
 

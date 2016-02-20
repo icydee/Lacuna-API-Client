@@ -1,10 +1,10 @@
-package Lacuna::API::App::Misc::IsNameAvailable;
+package Lacuna::API::App::EmpireMisc::IsNameAvailable;
 
 use Moose;
 use MooseX::App::Command;
 use namespace::autoclean;
 
-extends 'Lacuna::API::App::Misc';
+extends 'Lacuna::API::App::EmpireMisc';
 
 option 'empire_name' => (
     is              => 'rw',
@@ -18,7 +18,7 @@ sub run {
 
     print "Checking if empire name ".$self->empire_name." is available\n" if $self->verbose;
 
-    my $is_available = $self->client->is_name_available( { name => $self->empire_name } );
+    my $is_available = $self->client->empire->is_name_available( { name => $self->empire_name } );
 
     print "Empire Name: '".$self->empire_name."' is ". ($is_available ? '' : "not ") . "available\n";
 }

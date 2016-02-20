@@ -1,11 +1,11 @@
-package Lacuna::API::App::Misc::Login;
+package Lacuna::API::App::EmpireMisc::Login;
 
 use Moose;
 use MooseX::App::Command;
 use Data::Dumper;
 use namespace::autoclean;
 
-extends 'Lacuna::API::App::Misc';
+extends 'Lacuna::API::App::EmpireMisc';
 
 option 'empire_name' => (
     is              => 'rw',
@@ -26,7 +26,7 @@ sub run {
 
     print "Test login to  ".$self->empire_name."\n" if $self->verbose;
 
-    my $response = $self->client->login({
+    my $success = $self->client->empire->login({
         name        => $self->empire_name,
         password    => $self->password,
     });
@@ -34,8 +34,14 @@ sub run {
     # If we get here then we know we have logged in
     # (an error would raise an exception)
     #
-    print Dumper($response);
-    print "Successful login. session = ".$response->{result}{session_id}."\n";
+    print "Successful login.\n";
+
+    my $referral_url = $self->client->empire->get_invite_friend_url({});
+    print "GET_INVITE_FRIEND_URL: $referral_url\n";
+
+    $success = $self->client->empire->logout({});
+
+    print "LOGOUT: \n";
 
 }
 
