@@ -82,8 +82,7 @@ sub _build_password {
 sub _build_inbox {
     my ($self) = @_;
 
-    my $inbox = Lacuna::API::Client::Inbox->new({
-    });
+    my $inbox = Lacuna::API::Client::Inbox->new;
 
     return $inbox;
 }
@@ -93,7 +92,7 @@ sub _build_inbox {
 sub _build_empire {
     my ($self) = @_;
 
-    return Lacuna::API::Client::Empire->new({});
+    return Lacuna::API::Client::Empire->new;
 }
 
 # Lazy build of Map

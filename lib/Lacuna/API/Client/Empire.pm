@@ -6,6 +6,7 @@ use Lacuna::API::Data::Empire::MyEmpire;
 use Lacuna::API::Data::Empire::PublicProfile;
 use Lacuna::API::Data::Empire::MyProfile;
 use Lacuna::API::Data::Bits::Captcha;
+use Data::Dumper;
 
 # This object is responsible for all the calls to the path /empire
 
@@ -139,6 +140,21 @@ sub update_species {
     my $response = $self->call('update_species', $args);
     return 1;
 }
+
+# Return the empire status
+#
+sub get_status {
+    my ($self, $args) = @_;
+
+    my $response    = $self->call('get_status', $args);
+
+#    foreach my $key (sort keys %{$response->{result}{empire}{bodies}} ) {
+#        print "KEY: $key ".Dumper($response->{result}{empire}{bodies}{$key});
+#    }
+
+    return Lacuna::API::Data::Empire::MyEmpire->new_from_raw($response->{result}{empire});
+}
+
 
 
 no Moose;

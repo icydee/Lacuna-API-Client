@@ -1,6 +1,8 @@
 package Lacuna::API::Data::Role::Attributes;
 
 use Moose::Role;
+use Data::Dumper;
+use Clone 'clone';
 
 # Create attributes for the class based on the 'attributes' hash
 #
@@ -40,6 +42,11 @@ sub create_attributes {
 sub new_from_raw {
     my ($class, $raw) = @_;
 
+    if (ref($raw) ne 'HASH') {
+#        return;
+    }
+        
+
     my $self = $class->new;
     $self->update_from_raw($raw);
     return $self;
@@ -55,7 +62,7 @@ sub new_from_raw {
 sub update_from_raw {
     my ($self, $raw) = @_;
 
-    my $hashref = $raw;
+    my $hashref = clone($raw);
 
     my $attributes = $self->_attributes;
     for my $attr (keys %$attributes) {
@@ -89,8 +96,8 @@ sub update_from_raw {
             eval "require $class";
             if ($type eq 'ArrayRef') {
                 my $objects;
-                for my $hash (@{$hashref->{$key}}) {
-                    my $object = $class->new_from_raw($hash);
+                for my $array_item (@{$hashref->{$key}}) {
+                    my $object = $class->new_from_raw($array_item);
                     push @$objects,$object;
                 }
                 $self->$writer($objects);
